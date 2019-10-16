@@ -28,8 +28,8 @@ import logo from '../assets/logo.png';
 
 // Remember to remove keys when do the commit
 // TODO - Make a backend server to serve a api for the app
-const GIT_ID = 'eefd7e543a3e2cfa064e';
-const GIT_SECRET = '67ad3dd9fb23468cd5317139a1a227ded9312f69';
+const GIT_ID = '***';
+const GIT_SECRET = '***';
 const userTokenKey = '@userTokenKey';
 
 export default function Login({ navigation }) {
