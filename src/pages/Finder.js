@@ -1,30 +1,73 @@
-import React from 'react';
+import React, { Component } from 'react';
 import {
   StyleSheet,
   View,
   Text,
   TouchableOpacity,
   StatusBar,
-  AsyncStorage
+  AsyncStorage,
+  Platform
 } from 'react-native';
+
+import * as Location from 'expo-location';
+import * as Permissions from 'expo-permissions';
+import Constants from 'expo-constants';
+import Axios from 'axios';
+
 
 const userTokenKey = '@userTokenKey';
 
-export default function Finder({ navigation }) {
-  async function logout() {
-    await AsyncStorage.removeItem(userTokenKey);
-    navigation.navigate('Login');
+class Finder extends Component {
+  state = {
+    loading: true,
+    location: '',
+    errorMessage: ''
   }
 
-  return (
-    <View style={styles.container}>
-      <StatusBar barStyle='dark-content' />
+  componentWillMount() {
+    if (Platform.OS === 'android' && !Constants.isDevice) {
+      this.setState({
+        errorMessage: 'Oops, this will not work on Sketch in an Android emulator. Try it on your device!',
+      });
+    } else {
+      this.getLocation();
+    }
+  }
 
-      <TouchableOpacity onPress={logout}>
-        <Text>Logout from Finder Page</Text>
-      </TouchableOpacity>
-    </View>
-  );
+  getLocation = async () => {
+    let { status } = await Permissions.askAsync(Permissions.LOCATION);
+    if (status !== 'granted') {
+      this.setState({errorMessage:'Permissão para acesso a localização negada'});
+    }
+
+    let location = await Location.getCurrentPositionAsync({});
+    let address = await Location.reverseGeocodeAsync(location.coords);
+    location = address[0];
+    if(address&&(!address[0].city)){
+      let zipCode = address[0].postalCode.replace('-','');
+      let cityByZipCode = await Axios.get(`https://viacep.com.br/ws/${zipCode}/json/`);
+      let {localidade} = cityByZipCode.data;
+      location.city = localidade;
+    }
+    this.setState({location});
+  }
+
+  logout = async () => {
+    await AsyncStorage.removeItem(userTokenKey);
+    this.props.navigation.navigate('Login');
+  }
+
+  render() {
+    return (
+      <View style={styles.container}>
+        <StatusBar barStyle='dark-content' />
+        <TouchableOpacity onPress={this.logout}>
+          <Text>Logout - location:{this.state.location.city}</Text>
+        </TouchableOpacity>
+      </View>
+    );
+  }
+
 }
 
 const styles = StyleSheet.create({
@@ -34,3 +77,5 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   }
 });
+
+export default Finder;

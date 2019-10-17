@@ -28,8 +28,13 @@ import logo from '../assets/logo.png';
 
 // Remember to remove keys when do the commit
 // TODO - Make a backend server to serve a api for the app
-const GIT_ID = '***';
-const GIT_SECRET = '***';
+
+//Before testing login you must go to your github account:
+// 1 - create a new app at your developer settings
+// 2 - in home url and url callback you should input the redirectUrl obtained
+// by the method AtuhSession.getRedirectUrl
+const GIT_ID = '<Use your ID Generated at your Github account>';
+const GIT_SECRET = '<Use your Secret generated at your Github accoun>';
 const userTokenKey = '@userTokenKey';
 
 export default function Login({ navigation }) {
@@ -44,7 +49,7 @@ export default function Login({ navigation }) {
   async function awaitUserLogin() {
     try {
       const redirectUrl = AuthSession.getRedirectUrl();
-
+      debugger;
       console.log(redirectUrl);
 
       const temporaryCode = await AuthSession.startAsync({
