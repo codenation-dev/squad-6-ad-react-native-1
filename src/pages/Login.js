@@ -1,9 +1,10 @@
 /**
  * @authors 
  * Gabriel Ferreira
+ * Anderson
  * 
  * @lastEditBy
- * 16/10/2019 - Gabriel Ferreira
+ * 17/10/2019 - Gabriel Ferreira
  * 
  */
 
@@ -49,8 +50,6 @@ export default function Login({ navigation }) {
   async function awaitUserLogin() {
     try {
       const redirectUrl = AuthSession.getRedirectUrl();
-      debugger;
-      console.log(redirectUrl);
 
       const temporaryCode = await AuthSession.startAsync({
         authUrl:
@@ -77,7 +76,6 @@ export default function Login({ navigation }) {
         navigation.navigate('Finder');
       }
     } catch (e) {
-      console.log(e);
       return Alert.alert('Erro ao realizar o login!', 'Por favor tente novamente.');
     }
   }
