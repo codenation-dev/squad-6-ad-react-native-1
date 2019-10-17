@@ -61,9 +61,12 @@ class Finder extends Component {
     return (
       <View style={styles.container}>
         <StatusBar barStyle='dark-content' />
+        
         <TouchableOpacity onPress={this.logout}>
-          <Text>Logout - location:{this.state.location.city}</Text>
+          <Text>Logout</Text>
         </TouchableOpacity>
+
+        <Text style={{fontWeight: 'bold'}}>Location: {this.state.location.city}</Text>
       </View>
     );
   }
