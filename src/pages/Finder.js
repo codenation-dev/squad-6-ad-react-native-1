@@ -6,7 +6,8 @@ import {
   TouchableOpacity,
   StatusBar,
   AsyncStorage,
-  Platform
+  Platform,
+  ActivityIndicator
 } from 'react-native';
 
 import * as Location from 'expo-location';
@@ -21,7 +22,9 @@ class Finder extends Component {
   state = {
     loading: true,
     location: '',
-    errorMessage: ''
+    errorMessage: '',
+    users: {},
+    loadedUserData: {}
   }
 
   componentWillMount() {
@@ -34,22 +37,32 @@ class Finder extends Component {
     }
   }
 
+  loadUsersFromLocation = async (location) => {
+    let result  = await Axios.get(`https://api.github.com/search/users?q=location:${location.toLowerCase()}`);
+    let {items} = result.data;
+    if (items) {
+      this.setState({ users: items });
+    }
+  }
+
   getLocation = async () => {
     let { status } = await Permissions.askAsync(Permissions.LOCATION);
     if (status !== 'granted') {
-      this.setState({errorMessage:'Permissão para acesso a localização negada'});
+      this.setState({ errorMessage: 'Permissão para acesso a localização negada' });
     }
 
     let location = await Location.getCurrentPositionAsync({});
     let address = await Location.reverseGeocodeAsync(location.coords);
     location = address[0];
-    if(address&&(!address[0].city)){
-      let zipCode = address[0].postalCode.replace('-','');
+    if (address && (!address[0].city)) {
+      let zipCode = address[0].postalCode.replace('-', '');
       let cityByZipCode = await Axios.get(`https://viacep.com.br/ws/${zipCode}/json/`);
-      let {localidade} = cityByZipCode.data;
+      let { localidade } = cityByZipCode.data;
       location.city = localidade;
     }
-    this.setState({location});
+    this.setState({ location });
+    await this.loadUsersFromLocation(location.city);
+    this.setState({ loading: false });
   }
 
   logout = async () => {
@@ -61,9 +74,16 @@ class Finder extends Component {
     return (
       <View style={styles.container}>
         <StatusBar barStyle='dark-content' />
-        <TouchableOpacity onPress={this.logout}>
-          <Text>Logout - location:{this.state.location.city}</Text>
-        </TouchableOpacity>
+        {this.state.loading && (
+          <View style={styles.loadingContent}>
+            <ActivityIndicator size="large" color="#000000" />
+          </View>
+        )}
+        {!this.state.loading && (
+          <TouchableOpacity onPress={this.logout}>
+            <Text>Logout - location:{this.state.location.city} - users {JSON.stringify(this.state.users)}</Text>
+          </TouchableOpacity>
+        )}
       </View>
     );
   }
@@ -75,6 +95,11 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center'
+  },
+  loadingContent: {
+    alignItems: 'center',
+    flex: 1,
+    justifyContent: 'center'
   }
 });
 
