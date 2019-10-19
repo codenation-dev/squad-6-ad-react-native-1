@@ -74,6 +74,7 @@ class Finder extends Component {
     return (
       <View style={styles.container}>
         <StatusBar barStyle='dark-content' />
+<<<<<<< HEAD
         {this.state.loading && (
           <View style={styles.loadingContent}>
             <ActivityIndicator size="large" color="#000000" />
@@ -84,6 +85,14 @@ class Finder extends Component {
             <Text>Logout - location:{this.state.location.city} - users {JSON.stringify(this.state.users)}</Text>
           </TouchableOpacity>
         )}
+=======
+        
+        <TouchableOpacity onPress={this.logout}>
+          <Text>Logout</Text>
+        </TouchableOpacity>
+
+        <Text style={{fontWeight: 'bold'}}>Location: {this.state.location.city}</Text>
+>>>>>>> master
       </View>
     );
   }
