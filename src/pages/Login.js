@@ -50,6 +50,7 @@ export default function Login({ navigation }) {
   async function awaitUserLogin() {
     try {
       const redirectUrl = AuthSession.getRedirectUrl();
+      console.log(redirectUrl);
 
       const temporaryCode = await AuthSession.startAsync({
         authUrl:
