@@ -7,7 +7,7 @@ import {
 } from 'react-native';
 
 
-export default function UserItem({ userItem }) {
+export default function UserCard({ userItem }) {
     return (
         <View key={userItem.id} style={styles.userCard}>
             <Image source={{ uri: userItem.avatar_url }}

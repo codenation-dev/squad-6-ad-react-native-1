@@ -16,7 +16,7 @@ import * as Permissions from 'expo-permissions';
 import Constants from 'expo-constants';
 import Axios from 'axios';
 
-import UserItem from '../components/UserItem';
+import UserList from '../components/UserList';
 
 const userTokenKey = '@userTokenKey';
 
@@ -95,11 +95,12 @@ class Finder extends Component {
         )}
         {!this.state.loading && (
           <ScrollView>
-            <View style={styles.usersContainer}>
+            {/* <View style={styles.usersContainer}>
               {this.state.users.map((user) => (
-                <UserItem key={user.id} userItem ={user}/>
+                <UserCard key={user.id} userItem ={user}/>
               ))}
-            </View>
+            </View> */}
+            <UserList users={this.state.users}/>
             <TouchableOpacity onPress={this.logout}>
               <Text>Logout - location:{this.state.location.city}</Text>
             </TouchableOpacity>
