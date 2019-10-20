@@ -126,12 +126,15 @@ const styles = StyleSheet.create({
   },
   userImage: {
     height: 100,
-    width: 100
+    width: 100,
+    borderRadius:50,
+    backgroundColor: '#fff',
   },
   userCard: {
     height: 200,
     width: 150,
     padding: 20,
+    alignItems:'center',
     backgroundColor: '#fff',
     borderRadius: 10,
     marginBottom: 15,
@@ -143,7 +146,6 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.23,
     shadowRadius: 2.62,
     elevation: 4,
-
   }
 });
 
