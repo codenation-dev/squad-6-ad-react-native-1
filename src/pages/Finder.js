@@ -7,7 +7,9 @@ import {
   StatusBar,
   AsyncStorage,
   Platform,
-  ActivityIndicator
+  ActivityIndicator,
+  Image,
+  ScrollView
 } from 'react-native';
 
 import * as Location from 'expo-location';
@@ -38,8 +40,9 @@ class Finder extends Component {
   }
 
   loadUsersFromLocation = async (location) => {
-    let result  = await Axios.get(`https://api.github.com/search/users?q=location:${location.toLowerCase()}`);
-    let {items} = result.data;
+    let result = await Axios.get(`https://api.github.com/search/users?q=location:${location.toLowerCase()}`);
+    let { items } = result.data;
+    debugger;
     if (items) {
       this.setState({ users: items });
     }
@@ -80,9 +83,20 @@ class Finder extends Component {
           </View>
         )}
         {!this.state.loading && (
-          <TouchableOpacity onPress={this.logout}>
-            <Text>Logout - location:{this.state.location.city} - users {JSON.stringify(this.state.users)}</Text>
-          </TouchableOpacity>
+          <ScrollView>
+            <View style={styles.usersContainer}>
+              {this.state.users.map((user) => (
+                <View key={user.id} style={styles.userCard}>
+                  <Image source={{ uri: user.avatar_url }}
+                    style={styles.userImage}
+                  />
+                </View>
+              ))}
+            </View>
+            <TouchableOpacity onPress={this.logout}>
+              <Text>Logout - location:{this.state.location.city}</Text>
+            </TouchableOpacity>
+          </ScrollView>
         )}
       </View>
     );
@@ -100,6 +114,36 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flex: 1,
     justifyContent: 'center'
+  },
+  usersContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    alignItems: 'flex-start',
+    justifyContent: 'space-around',
+    marginTop: 80,
+    marginLeft: 0
+  },
+  userImage: {
+    height: 100,
+    width: 100
+  },
+  userCard: {
+    height: 200,
+    width: 150,
+    padding: 20,
+    backgroundColor: '#fff',
+    borderRadius: 10,
+    marginBottom: 15,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.23,
+    shadowRadius: 2.62,
+    elevation: 4,
+
   }
 });
 
