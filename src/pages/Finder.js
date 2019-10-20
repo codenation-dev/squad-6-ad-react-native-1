@@ -8,7 +8,6 @@ import {
   AsyncStorage,
   Platform,
   ActivityIndicator,
-  Image,
   ScrollView
 } from 'react-native';
 
@@ -17,6 +16,7 @@ import * as Permissions from 'expo-permissions';
 import Constants from 'expo-constants';
 import Axios from 'axios';
 
+import UserItem from '../components/UserItem';
 
 const userTokenKey = '@userTokenKey';
 
@@ -42,7 +42,7 @@ class Finder extends Component {
   loadUsersFromLocation = async (location) => {
     let result = await Axios.get(`https://api.github.com/search/users?q=location:${location.toLowerCase()}`);
     let { items } = result.data;
-    
+
     if (items) {
       items = await Promise.all(
         items.map(async (user) => {
@@ -97,15 +97,7 @@ class Finder extends Component {
           <ScrollView>
             <View style={styles.usersContainer}>
               {this.state.users.map((user) => (
-                <View key={user.id} style={styles.userCard}>
-                  <Image source={{ uri: user.avatar_url }}
-                    style={styles.userImage}
-                  />
-                  <View style={styles.descriptionTextContainer}>
-                    <Text style={styles.titleText}>{user.login}</Text>
-                    <Text style={styles.titleText}>{user.followersAmount} Seguidores</Text>
-                  </View>
-                </View>
+                <UserItem key={user.id} userItem ={user}/>
               ))}
             </View>
             <TouchableOpacity onPress={this.logout}>
@@ -138,43 +130,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     marginTop: 80,
     marginLeft: 0
-  },
-  userImage: {
-    height: 100,
-    width: 100,
-    borderRadius: 50,
-    borderWidth: 0.3,
-    borderColor: '#000',
-    backgroundColor: '#fff',
-    marginBottom: 10
-  },
-  userCard: {
-    height: 200,
-    width: 170,
-    padding: 20,
-    alignItems: 'center',
-    backgroundColor: '#fff',
-    borderRadius: 10,
-    marginBottom: 15,
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.23,
-    shadowRadius: 2.62,
-    elevation: 4,
-  },
-  titleText: {
-    fontFamily: 'sans-serif',
-    fontWeight: 'bold',
-    fontSize: 14,
-    marginBottom: 10
-  },
-  descriptionTextContainer:{
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center'
   }
 });
 
