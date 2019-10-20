@@ -42,8 +42,14 @@ class Finder extends Component {
   loadUsersFromLocation = async (location) => {
     let result = await Axios.get(`https://api.github.com/search/users?q=location:${location.toLowerCase()}`);
     let { items } = result.data;
-    debugger;
+    
     if (items) {
+      items = await Promise.all(
+        items.map(async (user) => {
+          let { data } = await this.getUsersAmountFollowed(user.login);
+          return { ...user, followersAmount: data.length }
+        })
+      )
       this.setState({ users: items });
     }
   }
@@ -73,6 +79,11 @@ class Finder extends Component {
     this.props.navigation.navigate('Login');
   }
 
+  getUsersAmountFollowed = (userLogin) => {
+    let url = `https://api.github.com/users/${userLogin}/followers`;
+    return Axios.get(url);
+  }
+
   render() {
     return (
       <View style={styles.container}>
@@ -90,6 +101,10 @@ class Finder extends Component {
                   <Image source={{ uri: user.avatar_url }}
                     style={styles.userImage}
                   />
+                  <View style={styles.descriptionTextContainer}>
+                    <Text style={styles.titleText}>{user.login}</Text>
+                    <Text style={styles.titleText}>{user.followersAmount} Seguidores</Text>
+                  </View>
                 </View>
               ))}
             </View>
@@ -127,14 +142,17 @@ const styles = StyleSheet.create({
   userImage: {
     height: 100,
     width: 100,
-    borderRadius:50,
+    borderRadius: 50,
+    borderWidth: 0.3,
+    borderColor: '#000',
     backgroundColor: '#fff',
+    marginBottom: 10
   },
   userCard: {
     height: 200,
-    width: 150,
+    width: 170,
     padding: 20,
-    alignItems:'center',
+    alignItems: 'center',
     backgroundColor: '#fff',
     borderRadius: 10,
     marginBottom: 15,
@@ -146,6 +164,17 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.23,
     shadowRadius: 2.62,
     elevation: 4,
+  },
+  titleText: {
+    fontFamily: 'sans-serif',
+    fontWeight: 'bold',
+    fontSize: 14,
+    marginBottom: 10
+  },
+  descriptionTextContainer:{
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center'
   }
 });
 
