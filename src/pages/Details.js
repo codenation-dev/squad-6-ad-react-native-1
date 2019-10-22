@@ -5,12 +5,18 @@ import {
   Text
 } from 'react-native';
 
-export default function Details({ navigation }) {
-  return(
-    <View style={styles.container}>
-        <Text>Details Page</Text>
-    </View>
-  );
+export default class Details extends React.Component {
+  constructor(props){
+    super(props);
+  };
+
+  render(){
+    return(
+      <View style={styles.container}>
+          <Text>Details Page</Text>
+      </View>
+    );
+  }
 }
 
 const styles = StyleSheet.create({

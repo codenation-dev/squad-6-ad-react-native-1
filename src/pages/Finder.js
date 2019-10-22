@@ -21,6 +21,10 @@ import UserList from '../components/UserList';
 const userTokenKey = '@userTokenKey';
 
 class Finder extends Component {
+  constructor(props) {
+    super(props);
+  };
+
   state = {
     loading: true,
     location: '',
@@ -95,12 +99,7 @@ class Finder extends Component {
         )}
         {!this.state.loading && (
           <ScrollView>
-            {/* <View style={styles.usersContainer}>
-              {this.state.users.map((user) => (
-                <UserCard key={user.id} userItem ={user}/>
-              ))}
-            </View> */}
-            <UserList users={this.state.users}/>
+            <UserList users={this.state.users} navigation={this.props.navigation} />
             <TouchableOpacity onPress={this.logout}>
               <Text>Logout - location:{this.state.location.city}</Text>
             </TouchableOpacity>
