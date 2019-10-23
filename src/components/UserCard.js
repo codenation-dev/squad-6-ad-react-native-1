@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
     titleText: {
       fontFamily: 'sans-serif',
       fontWeight: 'bold',
-      fontSize: 15,
+      fontSize: 14,
       marginBottom: 10
     },
     subtitleText:{
