@@ -91,7 +91,7 @@ class Finder extends Component {
     this.setState({ loading: true });
     let usersLoaded = await this.loadUsersFromLocation(this.state.location.city);
     this.loadMoreUsersButtonLabel = (usersLoaded.length > 0) ? 'Next Page' : 'Back to First Page';
-    this.page = (usersLoaded.length > 0)?this.page:1;
+    this.page = (usersLoaded.length > 0) ? this.page : 1;
     this.setState({ loading: false });
   }
 
@@ -112,7 +112,7 @@ class Finder extends Component {
         {((!this.state.loading) && (this.state.users.length > 0))
           && (
             <ScrollView>
-              <UserList users={this.state.users} />
+              <UserList users={this.state.users} navigation={this.props.navigation} />
               <TouchableOpacity onPress={this.logout}>
                 <Text>Logout - location:{this.state.location.city}</Text>
               </TouchableOpacity>

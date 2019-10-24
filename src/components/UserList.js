@@ -7,11 +7,11 @@ import {
 import UserCard from './UserCard';
 
 
-export default function UserList({ users }) {
+export default function UserList({ users, navigation }) {
     return (
         <View style={styles.usersContainer}>
             {users.map((user) => (
-                <UserCard key={user.id} userItem={user} />
+                <UserCard key={user.id} userItem={user} navigation={navigation} />
             ))}
         </View>
     );
@@ -26,5 +26,5 @@ const styles = StyleSheet.create({
         justifyContent: 'space-around',
         marginTop: 80,
         marginLeft: 0
-      }
+    }
 })
