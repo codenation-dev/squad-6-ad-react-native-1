@@ -67,6 +67,8 @@ export default function Header({ navigation }) {
 
 const styles = StyleSheet.create({
   header: {
+    position: 'absolute',
+    top: 0,
     marginTop: Platform.OS === 'android' ? StatusBar.currentHeight + 5 : 0,
     width: '100%',
     height: 50,
@@ -84,11 +86,15 @@ const styles = StyleSheet.create({
     right: '5%'
   },
   menuDrop: {
+    position: 'absolute',
+    top: '9.65%',
     width: '100%',
     height: 150,
     backgroundColor: '#262626',
     borderBottomLeftRadius: 30,
     borderBottomRightRadius: 30,
+    marginBottom: 30,
+    zIndex: 1
   },
   menuSelect: {
     flexDirection: 'row',
