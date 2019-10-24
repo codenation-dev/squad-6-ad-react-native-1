@@ -5,10 +5,13 @@ import {
   Text
 } from 'react-native';
 
+import Header from '../components/Header';
+
 export default function Favorites({ navigation }) {
-  return(
+  return (
     <View style={styles.container}>
-        <Text>Favorites Page</Text>
+      <Header />
+      <Text>Favorites Page</Text>
     </View>
   );
 }

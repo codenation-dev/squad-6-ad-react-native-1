@@ -8,6 +8,8 @@ import {
 } from 'react-native';
 import Repository from '../components/Repository';
 
+import Header from '../components/Header';
+
 export default class Details extends React.Component {
   constructor(props) {
     super(props);
@@ -16,7 +18,7 @@ export default class Details extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-
+        <Header navigation={this.props.navigation} />
         <View style={styles.profileHeader}>
           <Image
             source={{ uri: 'https://avatars3.githubusercontent.com/u/8082302?s=460&v=4' }}
@@ -48,7 +50,7 @@ export default class Details extends React.Component {
         </View>
 
         <ScrollView style={styles.profileRepositories}>
-          <Repository/>
+          <Repository />
         </ScrollView>
 
       </View>
@@ -125,9 +127,9 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     marginRight: 10
   },
-  profileRepositories:{
+  profileRepositories: {
     marginLeft: 10,
     marginRight: 10,
-    marginTop:10
+    marginTop: 10
   }
 });
