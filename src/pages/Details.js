@@ -19,40 +19,41 @@ export default class Details extends React.Component {
     return (
       <View style={styles.container}>
         <Header navigation={this.props.navigation} />
-        <View style={styles.profileHeader}>
-          <Image
-            source={{ uri: 'https://avatars3.githubusercontent.com/u/8082302?s=460&v=4' }}
-            style={styles.profileImage}
-          />
-          <View>
-            <Text style={styles.profileName}>Ana Carolina Fidelis</Text>
-            <View style={styles.profileSocial}>
-              <Text style={styles.profileSocialLabel}>@acarolinafg</Text>
-              <Text style={styles.profileSocialLabel}>10 Seguidores</Text>
+        <View style={{ marginTop: Header.menu ? '20%' : '18%', padding: 0 }}>
+          <View style={styles.profileHeader}>
+            <Image
+              source={{ uri: 'https://avatars3.githubusercontent.com/u/8082302?s=460&v=4' }}
+              style={styles.profileImage}
+            />
+            <View>
+              <Text style={styles.profileName}>Ana Carolina Fidelis</Text>
+              <View style={styles.profileSocial}>
+                <Text style={styles.profileSocialLabel}>@acarolinafg</Text>
+                <Text style={styles.profileSocialLabel}>10 Seguidores</Text>
+              </View>
             </View>
           </View>
+
+          <View style={styles.profileExtraInfo}>
+            <Text style={styles.profileText}>Juiz de Fora, Minas Gerais</Text>
+            <Text style={styles.profileTab}>|</Text>
+            <Text style={styles.profileText}>SunMedia</Text>
+          </View>
+
+          <View style={styles.profileBio}>
+            <Text style={styles.profileText}>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</Text>
+          </View>
+
+          <View style={styles.profileContact}>
+            <Text>acarolinafg@gmail.com</Text>
+            <Text style={{ paddingHorizontal: 10 }}>|</Text>
+            <Text>acarolinafg.com.br</Text>
+          </View>
+
+          <ScrollView style={styles.profileRepositories}>
+            <Repository />
+          </ScrollView>
         </View>
-
-        <View style={styles.profileExtraInfo}>
-          <Text style={styles.profileText}>Juiz de Fora, Minas Gerais</Text>
-          <Text style={styles.profileTab}>|</Text>
-          <Text style={styles.profileText}>SunMedia</Text>
-        </View>
-
-        <View style={styles.profileBio}>
-          <Text style={styles.profileText}>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</Text>
-        </View>
-
-        <View style={styles.profileContact}>
-          <Text>acarolinafg@gmail.com</Text>
-          <Text style={{ paddingHorizontal: 10 }}>|</Text>
-          <Text>acarolinafg.com.br</Text>
-        </View>
-
-        <ScrollView style={styles.profileRepositories}>
-          <Repository />
-        </ScrollView>
-
       </View>
     );
   }
@@ -61,7 +62,7 @@ export default class Details extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff'
+    backgroundColor: '#fff',
   },
   profileHeader: {
     alignItems: 'center',
