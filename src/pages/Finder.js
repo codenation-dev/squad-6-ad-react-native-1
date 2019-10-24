@@ -17,6 +17,7 @@ import Constants from 'expo-constants';
 import Axios from 'axios';
 
 import UserList from '../components/UserList';
+import Header from '../components/Header';
 
 const userTokenKey = '@userTokenKey';
 
@@ -104,6 +105,7 @@ class Finder extends Component {
     return (
       <View style={styles.container}>
         <StatusBar barStyle='dark-content' />
+        <Header navigation={this.props.navigation} />
         {this.state.loading && (
           <View style={styles.loadingContent}>
             <ActivityIndicator size="large" color="#000000" />
