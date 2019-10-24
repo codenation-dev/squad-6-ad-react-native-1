@@ -21,12 +21,18 @@ import UserList from '../components/UserList';
 const userTokenKey = '@userTokenKey';
 
 class Finder extends Component {
-  state = {
-    loading: true,
-    location: '',
-    errorMessage: '',
-    users: {},
-    loadedUserData: {}
+
+  constructor() {
+    super();
+    this.state = {
+      loading: true,
+      location: '',
+      errorMessage: '',
+      users: {},
+      loadedUserData: {},
+    }
+    this.page = 1;
+    this.loadMoreUsersButtonLabel = 'Next Page';
   }
 
   componentWillMount() {
@@ -40,7 +46,7 @@ class Finder extends Component {
   }
 
   loadUsersFromLocation = async (location) => {
-    let result = await Axios.get(`https://api.github.com/search/users?q=location:${location.toLowerCase()}`);
+    let result = await Axios.get(`https://api.github.com/search/users?q=location:${location.toLowerCase()}&per_page=6&page=${this.page}`);
     let { items } = result.data;
 
     if (items) {
@@ -52,6 +58,7 @@ class Finder extends Component {
       )
       this.setState({ users: items });
     }
+    return items;
   }
 
   getLocation = async () => {
@@ -79,6 +86,15 @@ class Finder extends Component {
     this.props.navigation.navigate('Login');
   }
 
+  loadMoreData = async () => {
+    this.page = this.page + 1;
+    this.setState({ loading: true });
+    let usersLoaded = await this.loadUsersFromLocation(this.state.location.city);
+    this.loadMoreUsersButtonLabel = (usersLoaded.length > 0) ? 'Next Page' : 'Back to First Page';
+    this.page = (usersLoaded.length > 0)?this.page:1;
+    this.setState({ loading: false });
+  }
+
   getUsersAmountFollowed = (userLogin) => {
     let url = `https://api.github.com/users/${userLogin}/followers`;
     return Axios.get(url);
@@ -93,18 +109,30 @@ class Finder extends Component {
             <ActivityIndicator size="large" color="#000000" />
           </View>
         )}
+        {((!this.state.loading) && (this.state.users.length > 0))
+          && (
+            <ScrollView>
+              <UserList users={this.state.users} />
+              <TouchableOpacity onPress={this.logout}>
+                <Text>Logout - location:{this.state.location.city}</Text>
+              </TouchableOpacity>
+            </ScrollView>
+          )
+        }
+        {
+          ((!this.state.loading) && (this.state.users.length == 0)) && (
+            <Text>Ooops! Something went wrong</Text>
+          )
+        }
         {!this.state.loading && (
-          <ScrollView>
-            {/* <View style={styles.usersContainer}>
-              {this.state.users.map((user) => (
-                <UserCard key={user.id} userItem ={user}/>
-              ))}
-            </View> */}
-            <UserList users={this.state.users}/>
-            <TouchableOpacity onPress={this.logout}>
-              <Text>Logout - location:{this.state.location.city}</Text>
+          <View style={styles.footer}>
+            <TouchableOpacity
+              activeOpacity={0.9}
+              onPress={this.loadMoreData}
+              style={styles.loadMoreBtn}>
+              <Text style={styles.btnText}>{this.loadMoreUsersButtonLabel}</Text>
             </TouchableOpacity>
-          </ScrollView>
+          </View>
         )}
       </View>
     );
@@ -131,7 +159,26 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     marginTop: 80,
     marginLeft: 0
-  }
+  },
+  footer: {
+    padding: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'row',
+  },
+  loadMoreBtn: {
+    padding: 10,
+    backgroundColor: '#000000',
+    borderRadius: 4,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  btnText: {
+    color: '#ffffff',
+    fontSize: 15,
+    textAlign: 'center',
+  },
 });
 
 export default Finder;
