@@ -34,6 +34,10 @@ export default function Header({ navigation }) {
     return navigation.navigate('Login');
   }
 
+  function about() {
+    return navigation.navigate('About');
+  }
+
   return (
     <>
       <View style={styles.header}>
@@ -50,14 +54,14 @@ export default function Header({ navigation }) {
             <Text style={styles.menuText}>Favoritos</Text>
           </TouchableOpacity>
 
+          <TouchableOpacity style={styles.menuSelect} onPress={() => { about(); }}>
+            <Ionicons name='md-information-circle-outline' size={35} color='#fff' />
+            <Text style={styles.menuText}>Sobre</Text>
+          </TouchableOpacity>
+
           <TouchableOpacity style={styles.menuSelect} onPress={() => { logout(); }}>
             <Ionicons name='md-log-out' size={35} color='#fff' />
             <Text style={styles.menuText}>Sair</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity style={styles.menuSelect} onPress={() => { console.log('Sobre'); }}>
-            <Ionicons name='md-information-circle-outline' size={35} color='#fff' />
-            <Text style={styles.menuText}>Sobre</Text>
           </TouchableOpacity>
         </View>
       )}

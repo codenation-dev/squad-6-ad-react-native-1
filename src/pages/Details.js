@@ -19,7 +19,7 @@ export default class Details extends React.Component {
     return (
       <View style={styles.container}>
         <Header navigation={this.props.navigation} />
-        <View style={{ marginTop: Header.menu ? '20%' : '18%', padding: 0 }}>
+        <View style={{ marginTop: '20%', padding: 0 }}>
           <View style={styles.profileHeader}>
             <Image
               source={{ uri: 'https://avatars3.githubusercontent.com/u/8082302?s=460&v=4' }}

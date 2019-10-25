@@ -115,7 +115,7 @@ class Finder extends Component {
 
   loadMoreData = async () => {
     this.previouPage = this.page;
-    this.page = (this.state.users.length > 0)?this.page + 1:this.page;
+    this.page = (this.state.users.length > 0) ? this.page + 1 : this.page;
     this.setState({ loading: true });
     let usersLoaded = await this.loadUsersFromLocation(this.state.location.city);
     this.loadMoreUsersButtonLabel = (usersLoaded.length > 0) ? 'Next Page' : 'Back to First Page';
@@ -134,37 +134,36 @@ class Finder extends Component {
     return (
       <View style={styles.container}>
         <StatusBar barStyle='dark-content' />
-        <Header navigation={this.props.navigation} />
-        {this.state.loading && (
-          <View style={styles.loadingContent}>
-            <ActivityIndicator size="large" color="#000000" />
-          </View>
-        )}
-        {((!this.state.loading) && (this.state.users.length > 0))
-          && (
-            <ScrollView>
-              <UserList users={this.state.users} navigation={this.props.navigation} />
-              <TouchableOpacity onPress={this.logout}>
-                <Text>Logout - location:{this.state.location.city}</Text>
+        <View style={{ zIndex: 0 }}>
+          {this.state.loading && (
+            <View style={styles.loadingContent}>
+              <ActivityIndicator size="large" color="#000000" />
+            </View>
+          )}
+          {((!this.state.loading) && (this.state.users.length > 0))
+            && (
+              <ScrollView style={{ marginTop: '25%', zIndex: 0 }}>
+                <UserList users={this.state.users} navigation={this.props.navigation} />
+              </ScrollView>
+            )
+          }
+          {
+            ((!this.state.loading) && (this.state.users.length == 0)) && (
+              <Text>Ooops! Something went wrong</Text>
+            )
+          }
+          {!this.state.loading && (
+            <View style={styles.footer}>
+              <TouchableOpacity
+                activeOpacity={0.9}
+                onPress={this.loadMoreData}
+                style={styles.loadMoreBtn}>
+                <Text style={styles.btnText}>{this.loadMoreUsersButtonLabel}</Text>
               </TouchableOpacity>
-            </ScrollView>
-          )
-        }
-        {
-          ((!this.state.loading) && (this.state.users.length == 0)) && (
-            <Text>Ooops! Something went wrong</Text>
-          )
-        }
-        {!this.state.loading && (
-          <View style={styles.footer}>
-            <TouchableOpacity
-              activeOpacity={0.9}
-              onPress={this.loadMoreData}
-              style={styles.loadMoreBtn}>
-              <Text style={styles.btnText}>{this.loadMoreUsersButtonLabel}</Text>
-            </TouchableOpacity>
-          </View>
-        )}
+            </View>
+          )}
+        </View>
+        <Header navigation={this.props.navigation} />
       </View>
     );
   }
