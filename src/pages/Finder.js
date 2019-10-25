@@ -8,7 +8,8 @@ import {
   AsyncStorage,
   Platform,
   ActivityIndicator,
-  ScrollView
+  ScrollView,
+  Alert
 } from 'react-native';
 
 import * as Location from 'expo-location';
@@ -18,6 +19,8 @@ import Axios from 'axios';
 
 import UserList from '../components/UserList';
 import Header from '../components/Header';
+import { handleAndroidBackButton, removeAndroidBackButtonHandler } from '../services/BackViewService';
+import { exitAlert } from '../services/ExitAlertService';
 
 const userTokenKey = '@userTokenKey';
 
@@ -33,6 +36,7 @@ class Finder extends Component {
       loadedUserData: {},
     }
     this.page = 1;
+    this.previouPage = this.page;
     this.loadMoreUsersButtonLabel = 'Next Page';
   }
 
@@ -44,6 +48,28 @@ class Finder extends Component {
     } else {
       this.getLocation();
     }
+  }
+
+  componentDidMount() {
+    handleAndroidBackButton(this.navigateBack);
+  }
+
+  componentWillUnmount() {
+    removeAndroidBackButtonHandler();
+  }
+
+  navigateBack = async () => {
+    if (this.page > 1) {
+      this.page = this.page - 1;
+      this.setState({ loading: true });
+      let usersLoaded = await this.loadUsersFromLocation(this.state.location.city);
+      this.loadMoreUsersButtonLabel = (usersLoaded.length > 0) ? 'Next Page' : 'Back to First Page';
+      this.setState({ loading: false });
+    }
+    else {
+      exitAlert();
+    }
+    return true;
   }
 
   loadUsersFromLocation = async (location) => {
@@ -88,11 +114,14 @@ class Finder extends Component {
   }
 
   loadMoreData = async () => {
-    this.page = this.page + 1;
+    this.previouPage = this.page;
+    this.page = (this.state.users.length > 0)?this.page + 1:this.page;
     this.setState({ loading: true });
     let usersLoaded = await this.loadUsersFromLocation(this.state.location.city);
     this.loadMoreUsersButtonLabel = (usersLoaded.length > 0) ? 'Next Page' : 'Back to First Page';
-    this.page = (usersLoaded.length > 0) ? this.page : 1;
+    if (usersLoaded.length <= 0) {
+      this.page = 1;
+    }
     this.setState({ loading: false });
   }
 
