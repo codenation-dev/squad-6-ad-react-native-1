@@ -60,11 +60,11 @@ class Finder extends Component {
 
   navigateBack = async () => {
     if (this.page > 1) {
-        this.page = this.page - 1;
-        this.setState({ loading: true });
-        let usersLoaded = await this.loadUsersFromLocation(this.state.location.city);
-        this.loadMoreUsersButtonLabel = (usersLoaded.length > 0) ? 'Next Page' : 'Back to First Page';
-        this.setState({ loading: false });
+      this.page = this.page - 1;
+      this.setState({ loading: true });
+      let usersLoaded = await this.loadUsersFromLocation(this.state.location.city);
+      this.loadMoreUsersButtonLabel = (usersLoaded.length > 0) ? 'Next Page' : 'Back to First Page';
+      this.setState({ loading: false });
     }
     else {
       exitAlert();
@@ -81,7 +81,7 @@ class Finder extends Component {
         items = await Promise.all(
           items.map(async (user) => {
             let { data } = await this.getUsersAmountFollowed(user.login);
-            return { ...user, followersAmount: data.length }
+            return { ...user, followersAmount: data.followers }
           })
         )
         this.setState({ users: items });
@@ -120,7 +120,7 @@ class Finder extends Component {
     }
     this.setState({ location });
     await this.loadUsersFromLocation(location.city);
-    
+
     this.setState({ loading: false });
   }
 
@@ -142,7 +142,7 @@ class Finder extends Component {
   }
 
   getUsersAmountFollowed = (userLogin) => {
-    let url = `https://api.github.com/users/${userLogin}/followers`;
+    let url = `https://api.github.com/users/${userLogin}`;
     return Axios.get(url);
   }
 

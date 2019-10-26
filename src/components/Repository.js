@@ -4,6 +4,7 @@ import {
   View,
   Text
 } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 
 export default function Repository({ item }) {
   return (
@@ -12,7 +13,8 @@ export default function Repository({ item }) {
         <View style={styles.header}>
           <Text style={styles.title}>{item.name}</Text>
           <View style={styles.star}>
-            <Text style={styles.textStar}>1000</Text>
+            <Text style={styles.textStar}>{item.stargazers_count}</Text>
+            <Ionicons name='md-star' size={22} color='#000' />
           </View>
         </View>
         <View style={styles.technologies}>
@@ -50,10 +52,12 @@ const styles = StyleSheet.create({
   star: {
     flex: 2,
     justifyContent: 'flex-end',
-    flexDirection: 'row'
+    flexDirection: 'row',
+    alignItems: 'center'
   },
   textStar: {
-    fontSize: 20
+    fontSize: 20,
+    marginRight: 5
   },
   technologies: {
     alignItems: 'center',
