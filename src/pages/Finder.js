@@ -9,7 +9,7 @@ import {
   Platform,
   ActivityIndicator,
   ScrollView,
-  Alert
+  Image
 } from 'react-native';
 
 import * as Location from 'expo-location';
@@ -21,6 +21,7 @@ import UserList from '../components/UserList';
 import Header from '../components/Header';
 import { handleAndroidBackButton, removeAndroidBackButtonHandler } from '../services/BackViewService';
 import { exitAlert } from '../services/ExitAlertService';
+import linktocat from '../assets/linktocat.jpg'
 
 import { GIT_ID, GIT_LINK, GIT_SECRET } from '../services/GitKeys';
 
@@ -83,7 +84,7 @@ class Finder extends Component {
         items = await Promise.all(
           items.map(async (user) => {
             let { data } = await this.getUsersAmountFollowed(user.login);
-            return { ...user, followersAmount: data.followers }
+            return { ...user, followersAmount:(data.followers)?data.followers:'0'}
           })
         )
         this.setState({ users: items });
@@ -156,7 +157,12 @@ class Finder extends Component {
           }
           {
             ((!this.state.loading) && (this.state.users.length == 0)) && (
-              <Text>Ooops! Something went wrong</Text>
+              <View style={styles.noDevs}>
+                <Image source={linktocat}
+                    style={{height:300,width:300}}/>
+                <Text style={styles.noDevsText}>Ooops! You've reached the quest end.</Text>
+              </View>
+
             )
           }
           {!this.state.loading && (
@@ -216,6 +222,16 @@ const styles = StyleSheet.create({
     fontSize: 15,
     textAlign: 'center',
   },
+  noDevs:{
+    alignItems:'center',
+    justifyContent:'center'
+  },
+  noDevsText: {
+    alignSelf: 'center',
+    fontSize: 18,
+    fontWeight: 'bold',
+    textAlign: 'center'
+  }
 });
 
 export default Finder;
