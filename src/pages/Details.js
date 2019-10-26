@@ -49,7 +49,7 @@ export default class Details extends React.Component {
     if (favs) {
       favs = JSON.parse(favs).favs;
       for (let fav of favs) {
-        if (this.state.user.id === fav.id) {
+        if (fav.id === this.state.user.id) {
           this.setState({ starred: true });
         }
       }
@@ -66,9 +66,22 @@ export default class Details extends React.Component {
 
     const star = async () => {
       let data = await AsyncStorage.getItem(favsKey);
+
       if (data) {
         data = JSON.parse(data).favs;
-        await AsyncStorage.setItem(favsKey, JSON.stringify({ favs: [...data, this.state.user] }));
+
+        let ver = false;
+        for (let fav of data) {
+          if (fav.id === this.state.user.id) {
+            ver = true;
+          }
+        }
+
+        if (ver) {
+          await AsyncStorage.setItem(favsKey, JSON.stringify({ favs: data.filter((dev) => { return dev.login !== user.login }) }));
+        } else {
+          await AsyncStorage.setItem(favsKey, JSON.stringify({ favs: [...data, this.state.user] }));
+        }
       } else {
         await AsyncStorage.setItem(favsKey, JSON.stringify({ favs: [this.state.user] }));
       }
