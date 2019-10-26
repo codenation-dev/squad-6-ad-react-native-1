@@ -10,14 +10,14 @@ import {
 
 export default function UserCard({ userItem, navigation }) {
   return (
-    <TouchableOpacity onPress={() => navigation.navigate('Details', {username:userItem.login})}>
+    <TouchableOpacity onPress={() => navigation.navigate('Details', { username: userItem.login })}>
       <View key={userItem.id} style={styles.userCard}>
         <Image source={{ uri: userItem.avatar_url }}
           style={styles.userImage}
         />
         <View style={styles.descriptionTextContainer}>
           <Text style={styles.titleText}>{userItem.login}</Text>
-          <Text style={styles.subtitleText}>{userItem.followersAmount} Seguidores</Text>
+          <Text style={styles.subtitleText}>{userItem.followersAmount ? userItem.followersAmount : userItem.followers} Seguidores</Text>
         </View>
       </View>
     </TouchableOpacity>
@@ -57,9 +57,9 @@ const styles = StyleSheet.create({
     fontSize: 14,
     marginBottom: 10
   },
-  subtitleText:{
-      fontSize: 14,
-      marginBottom: 10
+  subtitleText: {
+    fontSize: 14,
+    marginBottom: 10
   },
   descriptionTextContainer: {
     flex: 1,
