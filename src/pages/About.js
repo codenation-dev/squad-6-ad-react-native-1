@@ -31,7 +31,7 @@ function DevProfile({ dev }) {
   );
 }
 
-function Devs() {
+function Devs({ navigation }) {
   const devs = [
     {
       "id": 8082302,
@@ -60,7 +60,7 @@ function Devs() {
     <>
       <Text style={styles.aboutText}>Aplicativo desenvolvido como forma de desafio final do AceleraDev React-Native. E produzido por:</Text>
       {devs.map((dev) => (
-        <TouchableOpacity key={dev.id} onPress={() => { Linking.openURL(`https://www.github.com/${dev.login}`); }}>
+        <TouchableOpacity key={dev.id} onPress={() => { navigation.navigate('Details', { username: dev.login }) }}>
           <DevProfile dev={dev} />
         </TouchableOpacity>
       ))}
@@ -78,7 +78,7 @@ export default function About({ navigation }) {
       <StatusBar barStyle='dark-content' />
       <View style={styles.devs}>
         <Text style={styles.aboutText}>Encontre os desenvolvedores que estão na mesma cidade que você.</Text>
-        <Devs />
+        <Devs navigation={navigation} />
       </View>
 
       <Header navigation={navigation} />

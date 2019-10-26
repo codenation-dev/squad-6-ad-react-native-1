@@ -34,8 +34,7 @@ import logo from '../assets/logo.png';
 // 1 - create a new app at your developer settings
 // 2 - in home url and url callback you should input the redirectUrl obtained
 // by the method AtuhSession.getRedirectUrl
-const GIT_ID = 'eefd7e543a3e2cfa064e';
-const GIT_SECRET = '67ad3dd9fb23468cd5317139a1a227ded9312f69';
+import { GIT_ID, GIT_SECRET } from '../services/GitKeys';
 const userTokenKey = '@userTokenKey';
 
 export default function Login({ navigation }) {
