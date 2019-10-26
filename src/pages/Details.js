@@ -5,7 +5,9 @@ import {
   Text,
   Image,
   ScrollView,
-  FlatList
+  FlatList,
+  TouchableOpacity,
+  AsyncStorage
 } from 'react-native';
 
 import Axios from 'axios';
@@ -16,18 +18,23 @@ import Header from '../components/Header';
 import { handleAndroidBackButton, removeAndroidBackButtonHandler } from '../services/BackViewService';
 
 import { GIT_ID, GIT_LINK, GIT_SECRET } from '../services/GitKeys';
+import { Ionicons } from '@expo/vector-icons';
+
+const favsKey = '@favs';
 
 export default class Details extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       user: {},
-      repos: {}
+      repos: {},
+      starred: false
     }
   };
 
   async componentDidMount() {
     handleAndroidBackButton(() => { this.props.navigation.navigate('Finder') });
+
     const URL = 'https://api.github.com/users/' + this.props.navigation.getParam('username') + `?${GIT_LINK}`;
     const { data } = await Axios.get(URL);
     if (data) {
@@ -36,6 +43,16 @@ export default class Details extends React.Component {
       const data_repo = await Axios.get(data.repos_url + `?${GIT_LINK}`);
       const objects = data_repo.data;
       this.setState({ repos: objects });
+    }
+
+    let favs = await AsyncStorage.getItem(favsKey);
+    if (favs) {
+      favs = JSON.parse(favs).favs;
+      for (let fav of favs) {
+        if (this.state.user.id === fav.id) {
+          this.setState({ starred: true });
+        }
+      }
     }
   }
 
@@ -46,6 +63,18 @@ export default class Details extends React.Component {
   render() {
     const user = this.state.user;
     const repos = this.state.repos;
+
+    const star = async () => {
+      let data = await AsyncStorage.getItem(favsKey);
+      if (data) {
+        data = JSON.parse(data).favs;
+        await AsyncStorage.setItem(favsKey, JSON.stringify({ favs: [...data, this.state.user] }));
+      } else {
+        await AsyncStorage.setItem(favsKey, JSON.stringify({ favs: [this.state.user] }));
+      }
+      this.setState({ starred: !this.state.starred });
+    }
+
     return (
       <View style={styles.container}>
         <Header navigation={this.props.navigation} />
@@ -66,6 +95,10 @@ export default class Details extends React.Component {
               </View>
             </View>
           </View>
+
+          <TouchableOpacity style={styles.star} onPress={() => { star(); }}>
+            <Ionicons name={this.state.starred ? 'md-star' : 'md-star-outline'} size={45} color={'black'} />
+          </TouchableOpacity>
 
           <View style={styles.profileExtraInfo}>
             {!!user.location && (
@@ -138,6 +171,11 @@ const styles = StyleSheet.create({
     height: 100,
     width: 100,
     borderRadius: 50
+  },
+  star: {
+    position: 'absolute',
+    right: '12%',
+    top: '5.5%',
   },
   profileName: {
     color: '#000',

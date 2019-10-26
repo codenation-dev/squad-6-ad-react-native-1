@@ -27,10 +27,11 @@ export default function Favorites({ navigation }) {
 
   useEffect(() => {
     AsyncStorage.getItem(favsKey).then(favs => {
-      if (!favs) {
-        setFavs(null);
-      } else {
+      if (favs) {
+        favs = JSON.parse(favs).favs;
         setFavs(favs);
+      } else {
+        setFavs(null);
       }
     });
   }, []);

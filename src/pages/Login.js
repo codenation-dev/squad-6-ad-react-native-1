@@ -36,6 +36,7 @@ import logo from '../assets/logo.png';
 // by the method AtuhSession.getRedirectUrl
 import { GIT_ID, GIT_SECRET } from '../services/GitKeys';
 const userTokenKey = '@userTokenKey';
+const favsKey = '@favs';
 
 export default function Login({ navigation }) {
   useEffect(() => {
@@ -73,6 +74,7 @@ export default function Login({ navigation }) {
 
       if (token) {
         await AsyncStorage.setItem(userTokenKey, token);
+        await AsyncStorage.setItem(favsKey, '');
         navigation.navigate('Finder');
       }
     } catch (e) {
