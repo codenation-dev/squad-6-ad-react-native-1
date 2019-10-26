@@ -60,11 +60,11 @@ class Finder extends Component {
 
   navigateBack = async () => {
     if (this.page > 1) {
-      this.page = this.page - 1;
-      this.setState({ loading: true });
-      let usersLoaded = await this.loadUsersFromLocation(this.state.location.city);
-      this.loadMoreUsersButtonLabel = (usersLoaded.length > 0) ? 'Next Page' : 'Back to First Page';
-      this.setState({ loading: false });
+        this.page = this.page - 1;
+        this.setState({ loading: true });
+        let usersLoaded = await this.loadUsersFromLocation(this.state.location.city);
+        this.loadMoreUsersButtonLabel = (usersLoaded.length > 0) ? 'Next Page' : 'Back to First Page';
+        this.setState({ loading: false });
     }
     else {
       exitAlert();
@@ -73,19 +73,25 @@ class Finder extends Component {
   }
 
   loadUsersFromLocation = async (location) => {
-    let result = await Axios.get(`https://api.github.com/search/users?q=location:${location.toLowerCase()}&per_page=6&page=${this.page}`);
-    let { items } = result.data;
+    try {
+      debugger;
+      let result = await Axios.get(`https://api.github.com/search/users?q=location:${location.toLowerCase()}&per_page=6&page=${this.page}`);
+      let { items } = result.data;
 
-    if (items) {
-      items = await Promise.all(
-        items.map(async (user) => {
-          let { data } = await this.getUsersAmountFollowed(user.login);
-          return { ...user, followersAmount: data.length }
-        })
-      )
-      this.setState({ users: items });
+      if (items) {
+        items = await Promise.all(
+          items.map(async (user) => {
+            let { data } = await this.getUsersAmountFollowed(user.login);
+            return { ...user, followersAmount: data.length }
+          })
+        )
+        this.setState({ users: items });
+      }
+      return items;
+    } catch (error) {
+      debugger;
+      this.props.navigation.navigate('About');
     }
-    return items;
   }
 
   getLocation = async () => {
@@ -105,6 +111,7 @@ class Finder extends Component {
     }
     this.setState({ location });
     await this.loadUsersFromLocation(location.city);
+    
     this.setState({ loading: false });
   }
 
