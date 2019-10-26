@@ -24,7 +24,7 @@ function DevProfile({ dev }) {
         <Text style={styles.profileName}>{dev.name}</Text>
         <View style={styles.profileSocial}>
           <Text style={styles.profileSocialLabel}>@{dev.login}</Text>
-          <Text style={styles.profileSocialLabel}>{dev.followers} Seguidores</Text>
+          <Text style={styles.profileSocialLabel}>{dev.followers} Followers</Text>
         </View>
       </View>
     </View>
