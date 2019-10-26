@@ -4,7 +4,8 @@ import {
   View,
   Text,
   Image,
-  TouchableOpacity
+  TouchableOpacity,
+  StatusBar
 } from 'react-native';
 
 import { Linking } from 'expo';
@@ -74,6 +75,7 @@ export default function About({ navigation }) {
 
   return (
     <View style={styles.container}>
+      <StatusBar barStyle='dark-content' />
       <View style={styles.devs}>
         <Text style={styles.aboutText}>Encontre os desenvolvedores que estão na mesma cidade que você.</Text>
         <Devs />
@@ -89,7 +91,8 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    margin: 12
+    margin: 12,
+    marginTop: 0
   },
   devs: {
     width: '92.5%',
