@@ -43,7 +43,7 @@ export default function Favorites({ navigation }) {
       {!favs && (
         <View style={styles.noFavs}>
           <Image source={linktocat} style={styles.linktocat} />
-          <Text style={styles.noFavsText}>Que pena, você ainda não tem devs favoritos.</Text>
+          <Text style={styles.noFavsText}>Ooops! You have no favorites yet.</Text>
         </View>
       )}
 
