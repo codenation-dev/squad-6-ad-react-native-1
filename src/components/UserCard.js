@@ -10,7 +10,7 @@ import {
 
 export default function UserCard({ userItem, navigation }) {
   return (
-    <TouchableOpacity onPress={() => navigation.navigate("Details")}>
+    <TouchableOpacity onPress={() => navigation.navigate('Details', {username:userItem.login})}>
       <View key={userItem.id} style={styles.userCard}>
         <Image source={{ uri: userItem.avatar_url }}
           style={styles.userImage}

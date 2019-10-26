@@ -5,99 +5,20 @@ import {
   Text
 } from 'react-native';
 
-export default function Repository() {
+export default function Repository({ item }) {
   return (
     <View>
       <View style={styles.repository}>
         <View style={styles.header}>
-          <Text style={styles.title}>Projeto 1</Text>
+          <Text style={styles.title}>{item.name}</Text>
           <View style={styles.star}>
             <Text style={styles.textStar}>1000</Text>
           </View>
         </View>
         <View style={styles.technologies}>
-          <Text style={styles.label}>React</Text>
-          <Text style={styles.label}>React Native</Text>
-          <Text style={styles.label}>CSS</Text>
-          <Text style={styles.label}>JavaScript</Text>
+          <Text style={styles.label}>{item.language}</Text>
         </View>
       </View>
-
-      <View style={styles.repository}>
-        <View style={styles.header}>
-          <Text style={styles.title}>Projeto 2</Text>
-          <View style={styles.star}>
-            <Text style={styles.textStar}>10</Text>
-          </View>
-        </View>
-        <View style={styles.technologies}>
-          <Text style={styles.label}>React</Text>
-          <Text style={styles.label}>React Native</Text>
-          <Text style={styles.label}>CSS</Text>
-          <Text style={styles.label}>JavaScript</Text>
-        </View>
-      </View>
-
-      <View style={styles.repository}>
-        <View style={styles.header}>
-          <Text style={styles.title}>Projeto 3</Text>
-          <View style={styles.star}>
-            <Text style={styles.textStar}>400</Text>
-          </View>
-        </View>
-        <View style={styles.technologies}>
-          <Text style={styles.label}>React</Text>
-          <Text style={styles.label}>React Native</Text>
-          <Text style={styles.label}>CSS</Text>
-          <Text style={styles.label}>JavaScript</Text>
-        </View>
-      </View>
-
-      <View style={styles.repository}>
-        <View style={styles.header}>
-          <Text style={styles.title}>Projeto 5</Text>
-          <View style={styles.star}>
-            <Text style={styles.textStar}>1000</Text>
-          </View>
-        </View>
-        <View style={styles.technologies}>
-          <Text style={styles.label}>React</Text>
-          <Text style={styles.label}>React Native</Text>
-          <Text style={styles.label}>CSS</Text>
-          <Text style={styles.label}>JavaScript</Text>
-        </View>
-      </View>
-
-      <View style={styles.repository}>
-        <View style={styles.header}>
-          <Text style={styles.title}>Projeto 6</Text>
-          <View style={styles.star}>
-            <Text style={styles.textStar}>1000</Text>
-          </View>
-        </View>
-        <View style={styles.technologies}>
-          <Text style={styles.label}>React</Text>
-          <Text style={styles.label}>React Native</Text>
-          <Text style={styles.label}>CSS</Text>
-          <Text style={styles.label}>JavaScript</Text>
-        </View>
-      </View>
-
-      <View style={styles.repository}>
-        <View style={styles.header}>
-          <Text style={styles.title}>Projeto 7</Text>
-          <View style={styles.star}>
-            <Text style={styles.textStar}>1000</Text>
-          </View>
-        </View>
-        <View style={styles.technologies}>
-          <Text style={styles.label}>React</Text>
-          <Text style={styles.label}>React Native</Text>
-          <Text style={styles.label}>CSS</Text>
-          <Text style={styles.label}>JavaScript</Text>
-        </View>
-      </View>
-
     </View>
 
   )
