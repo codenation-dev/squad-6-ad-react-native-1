@@ -7,9 +7,13 @@ import {
   ScrollView,
   FlatList
 } from 'react-native';
+
 import Axios from 'axios';
+
 import Repository from '../components/Repository';
 import Header from '../components/Header';
+
+import { handleAndroidBackButton, removeAndroidBackButtonHandler } from '../services/BackViewService';
 
 export default class Details extends React.Component {
   constructor(props) {
@@ -26,10 +30,15 @@ export default class Details extends React.Component {
     if (data) {
       this.setState({ user: data });
       //carregar repositório
-      objects = await Axios.get(data.repos_url);
-      this.setState({ repos: objects });;
+      const data_repo = await Axios.get(data.repos_url);
+      const objects = data_repo.data;
+      this.setState({ repos: objects });
     }
+    handleAndroidBackButton(() => { this.props.navigation.navigate('Finder') });
+  }
 
+  componentWillUnmount() {
+    removeAndroidBackButtonHandler();
   }
 
   render() {
@@ -76,13 +85,13 @@ export default class Details extends React.Component {
             </View>
           )}
 
-          {user.email && user.blog !== "" && (
+          {user.email || user.blog !== "" && (
             <View style={styles.profileContact}>
               {user.email && (
                 <Text>{user.email}</Text>
               )}
 
-              {user.email && user.blog && (
+              {user.email && user.blog !== "" && (
                 <Text style={{ paddingHorizontal: 10 }}>|</Text>
               )}
 
@@ -95,9 +104,10 @@ export default class Details extends React.Component {
           {(repos) && (
             <View style={styles.profileRepositories}>
               <FlatList
+                key={item => item.id}
                 data={repos}
-                keyExtractor={item => item.index}
-                renderItem={({ item, index }) => <Repository item={item} />}
+                keyExtractor={item => item.name}
+                renderItem={({ item }) => <Repository key={item.id} item={item} />}
               />
             </View>
           )}
@@ -177,8 +187,7 @@ const styles = StyleSheet.create({
     marginRight: 10
   },
   profileRepositories: {
-    marginLeft: 10,
-    marginRight: 10,
-    marginTop: 10
+    margin: 10,
+    marginBottom: 50
   }
 });
