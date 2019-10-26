@@ -17,7 +17,7 @@ export default function UserCard({ userItem, navigation }) {
         />
         <View style={styles.descriptionTextContainer}>
           <Text style={styles.titleText}>{userItem.login}</Text>
-          <Text style={styles.subtitleText}>{userItem.followersAmount ? userItem.followersAmount : userItem.followers} Seguidores</Text>
+          <Text style={styles.subtitleText}>{userItem.followersAmount ? userItem.followersAmount : userItem.followers} Followers</Text>
         </View>
       </View>
     </TouchableOpacity>
