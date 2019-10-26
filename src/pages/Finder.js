@@ -74,7 +74,6 @@ class Finder extends Component {
 
   loadUsersFromLocation = async (location) => {
     try {
-      debugger;
       let result = await Axios.get(`https://api.github.com/search/users?q=location:${location.toLowerCase()}&per_page=6&page=${this.page}`);
       let { items } = result.data;
 
@@ -89,8 +88,7 @@ class Finder extends Component {
       }
       return items;
     } catch (error) {
-      debugger;
-      this.props.navigation.navigate('About');
+      this.props.navigation.navigate('NetworkError');
     }
   }
 

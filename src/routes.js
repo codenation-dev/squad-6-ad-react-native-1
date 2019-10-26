@@ -5,6 +5,7 @@ import Finder from './pages/Finder';
 import Details from './pages/Details';
 import Favorites from './pages/Favorites';
 import About from './pages/About';
+import NetworkError from './pages/NetworkError'
 
 const Routes = createAppContainer(
   createSwitchNavigator({
@@ -12,7 +13,8 @@ const Routes = createAppContainer(
     Finder,
     Details,
     Favorites,
-    About
+    About,
+    NetworkError
   })
 );
 
