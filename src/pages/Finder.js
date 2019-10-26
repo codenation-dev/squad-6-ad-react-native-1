@@ -101,18 +101,7 @@ class Finder extends Component {
     }
 
     let location = await Location.getCurrentPositionAsync({});
-    //let address = await Location.reverseGeocodeAsync(location.coords);
-    let address = [
-      {
-        "city": null,
-        "country": "Brasil",
-        "isoCountryCode": "BR",
-        "name": null,
-        "postalCode": "49095-790",
-        "region": "Sergipe",
-        "street": null,
-      }
-    ];
+    let address = await Location.reverseGeocodeAsync(location.coords);
     location = address[0];
     if (address && (!address[0].city)) {
       let zipCode = address[0].postalCode.replace('-', '');
