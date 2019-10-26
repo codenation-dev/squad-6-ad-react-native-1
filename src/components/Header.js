@@ -51,17 +51,17 @@ export default function Header({ navigation }) {
         <View style={styles.menuDrop}>
           <TouchableOpacity style={styles.menuSelect} onPress={() => { navigateTo('Favorites'); }}>
             <Ionicons name='md-star' size={35} color='#fff' />
-            <Text style={styles.menuText}>Favoritos</Text>
+            <Text style={styles.menuText}>Favorites</Text>
           </TouchableOpacity>
 
           <TouchableOpacity style={styles.menuSelect} onPress={() => { navigateTo('About'); }}>
             <Ionicons name='md-information-circle-outline' size={35} color='#fff' />
-            <Text style={styles.menuText}>Sobre</Text>
+            <Text style={styles.menuText}>About</Text>
           </TouchableOpacity>
 
           <TouchableOpacity style={styles.menuSelect} onPress={() => { logout(); }}>
             <Ionicons name='md-log-out' size={35} color='#fff' />
-            <Text style={styles.menuText}>Sair</Text>
+            <Text style={styles.menuText}>Sign-out</Text>
           </TouchableOpacity>
         </View>
       )}

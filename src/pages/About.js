@@ -58,7 +58,9 @@ function Devs({ navigation }) {
 
   return (
     <>
-      <Text style={styles.aboutText}>Aplicativo desenvolvido como forma de desafio final do AceleraDev React-Native. E produzido por:</Text>
+      <Text style={styles.aboutText}>
+        App developed as final project of Aceleradev React-Native. By:
+      </Text>
       {devs.map((dev) => (
         <TouchableOpacity key={dev.id} onPress={() => { navigation.navigate('Details', { username: dev.login }) }}>
           <DevProfile dev={dev} />
@@ -77,7 +79,9 @@ export default function About({ navigation }) {
     <View style={styles.container}>
       <StatusBar barStyle='dark-content' />
       <View style={styles.devs}>
-        <Text style={styles.aboutText}>Encontre os desenvolvedores que estão na mesma cidade que você.</Text>
+        <Text style={styles.aboutText}>
+          Find who has been developing amazing things next you.
+          </Text>
         <Devs navigation={navigation} />
       </View>
 

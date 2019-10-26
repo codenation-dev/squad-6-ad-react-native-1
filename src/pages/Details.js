@@ -103,8 +103,8 @@ export default class Details extends React.Component {
                 <Text style={styles.profileSocialLabel}>@{user.login}</Text>
               </View>
               <View style={styles.profileSocial}>
-                <Text style={styles.profileSocialLabel}>{user.followers} seguidores</Text>
-                <Text style={styles.profileSocialLabel}>{user.following} seguindo</Text>
+                <Text style={styles.profileSocialLabel}>{user.followers} followers</Text>
+                <Text style={styles.profileSocialLabel}>{user.following} following</Text>
               </View>
             </View>
           </View>
