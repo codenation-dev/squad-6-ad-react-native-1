@@ -40,14 +40,14 @@ export default function Favorites({ navigation }) {
     <View style={styles.container}>
       <StatusBar barStyle='dark-content' />
 
-      {!favs && (
+      {(!favs || !!(favs.length === 0)) && (
         <View style={styles.noFavs}>
           <Image source={linktocat} style={styles.linktocat} />
           <Text style={styles.noFavsText}>Que pena, você ainda não tem devs favoritos.</Text>
         </View>
       )}
 
-      {favs && (
+      {favs && !!(favs.length > 0) && (
         <ScrollView style={{ marginTop: '25%', zIndex: 0 }}>
           <UserList users={favs} navigation={navigation} />
         </ScrollView>
