@@ -22,6 +22,8 @@ import Header from '../components/Header';
 import { handleAndroidBackButton, removeAndroidBackButtonHandler } from '../services/BackViewService';
 import { exitAlert } from '../services/ExitAlertService';
 
+import { GIT_ID, GIT_LINK, GIT_SECRET } from '../services/GitKeys';
+
 const userTokenKey = '@userTokenKey';
 
 class Finder extends Component {
@@ -74,7 +76,7 @@ class Finder extends Component {
 
   loadUsersFromLocation = async (location) => {
     try {
-      let result = await Axios.get(`https://api.github.com/search/users?q=location:${location.toLowerCase()}&per_page=6&page=${this.page}`);
+      let result = await Axios.get(`https://api.github.com/search/users?${GIT_LINK}&q=location:${location.toLowerCase()}&per_page=6&page=${this.page}`);
       let { items } = result.data;
 
       if (items) {
@@ -142,7 +144,7 @@ class Finder extends Component {
   }
 
   getUsersAmountFollowed = (userLogin) => {
-    let url = `https://api.github.com/users/${userLogin}`;
+    let url = `https://api.github.com/users/${userLogin}?${GIT_LINK}`;
     return Axios.get(url);
   }
 

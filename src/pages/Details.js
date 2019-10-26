@@ -15,6 +15,8 @@ import Header from '../components/Header';
 
 import { handleAndroidBackButton, removeAndroidBackButtonHandler } from '../services/BackViewService';
 
+import { GIT_ID, GIT_LINK, GIT_SECRET } from '../services/GitKeys';
+
 export default class Details extends React.Component {
   constructor(props) {
     super(props);
@@ -25,16 +27,16 @@ export default class Details extends React.Component {
   };
 
   async componentDidMount() {
-    const URL = 'https://api.github.com/users/' + this.props.navigation.getParam('username');
+    handleAndroidBackButton(() => { this.props.navigation.navigate('Finder') });
+    const URL = 'https://api.github.com/users/' + this.props.navigation.getParam('username') + `?${GIT_LINK}`;
     const { data } = await Axios.get(URL);
     if (data) {
       this.setState({ user: data });
       //carregar repositório
-      const data_repo = await Axios.get(data.repos_url);
+      const data_repo = await Axios.get(data.repos_url + `?${GIT_LINK}`);
       const objects = data_repo.data;
       this.setState({ repos: objects });
     }
-    handleAndroidBackButton(() => { this.props.navigation.navigate('Finder') });
   }
 
   componentWillUnmount() {
@@ -47,7 +49,7 @@ export default class Details extends React.Component {
     return (
       <View style={styles.container}>
         <Header navigation={this.props.navigation} />
-        <View style={{ marginTop: Header.menu ? '20%' : '18%', padding: 0 }}>
+        <View style={styles.details}>
           <View style={styles.profileHeader}>
             <Image
               source={{ uri: user.avatar_url }}
@@ -66,42 +68,42 @@ export default class Details extends React.Component {
           </View>
 
           <View style={styles.profileExtraInfo}>
-            {user.location && (
+            {!!user.location && (
               <Text style={styles.profileText}>{user.location}</Text>
             )}
 
-            {user.company && user.location && (
+            {!!user.company && !!user.location && (
               <Text style={styles.profileTab}>|</Text>
             )}
 
-            {user.company && (
+            {!!user.company && (
               <Text style={styles.profileText}>{user.company}</Text>
             )}
           </View>
 
-          {user.bio && (
+          {!!user.bio && (
             <View style={styles.profileBio}>
               <Text style={styles.profileText}>{user.bio}</Text>
             </View>
           )}
 
-          {user.email || user.blog !== "" && (
+          {!!user.email || !!user.blog && (
             <View style={styles.profileContact}>
-              {user.email && (
+              {!!user.email && (
                 <Text>{user.email}</Text>
               )}
 
-              {user.email && user.blog !== "" && (
+              {!!user.email && !!user.blog && (
                 <Text style={{ paddingHorizontal: 10 }}>|</Text>
               )}
 
-              {user.blog !== "" && (
+              {!!user.blog && (
                 <Text>{user.blog}</Text>
               )}
             </View>
           )}
 
-          {(repos) && (
+          {repos && (
             <View style={styles.profileRepositories}>
               <FlatList
                 key={item => item.id}
@@ -121,6 +123,10 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
+  },
+  details: {
+    marginTop: Header.menu ? '20%' : '18%',
+    padding: 0
   },
   profileHeader: {
     alignItems: 'center',
